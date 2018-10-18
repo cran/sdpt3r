@@ -12,4 +12,3 @@ data(Bgpp)
 Adjacency Matrix for Graph Partitioning Problem
 }
 \keyword{datasets}
-

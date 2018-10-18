@@ -12,4 +12,3 @@ data(Bmaxcut)
 Adjacency Matrix for Max-Cut
 }
 \keyword{datasets}
-

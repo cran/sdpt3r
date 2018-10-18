@@ -136,16 +136,10 @@ X_{ij} - x^{l} &=~~ 1/(k-1) \quad \forall~i \neq j\\
 \end{array}
 \]
 
-The function \verb!maxkcut! takes as input an adjacency matrix \verb!B! and an integer \verb!k!, and returns the input variables necessary for the problem to be solved using \verb!sqlp!.
+The function \verb!maxkcut! takes as input an adjacency matrix \verb!B! and an integer \verb!k!, and returns the optimal solution using \verb!sqlp!.
 
 \begin{verbatim}
 R> out <- maxkcut(B,k)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> sqlp(blk,At,C,b)
 \end{verbatim}
 
 \section*{Numerical Example}
@@ -173,12 +167,6 @@ Like the max-cut problem, here we are interested in the primal objective functio
 
 \begin{verbatim}
 R> out <- maxkcut(Bmaxkcut,5)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> out <- sqlp(blk,At,C,b)
 
 R> -out$pobj
 [1] 19

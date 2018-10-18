@@ -12,4 +12,3 @@ data(Andwd)
 An Configuration Matrix for Distance Weighted Discrimination
 }
 \keyword{datasets}
-

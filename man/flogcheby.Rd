@@ -12,4 +12,3 @@ data(flogcheby)
 f vector for the Log Chebyshev Approximation Problem
 }
 \keyword{datasets}
-

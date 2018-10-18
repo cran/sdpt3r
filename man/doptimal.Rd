@@ -10,13 +10,11 @@ doptimal(V)
 \item{V}{a pxn matrix containing a set of n test vectors in dimension p (with p <= n)}
 }
 \value{
-Returns an object of class sqlp_input, containing the following:
-
-\item{blk}{A matrix object describing the block diagonal structure of the SQLP data}
-\item{At}{A matrix object containing constraint matrices for the primal-dual problem}
-\item{C}{A matrix object containing the constant C matrices in the primal objective function}
-\item{b}{A vector containing the right hand side of the equality constraints in the primal problem}
-\item{OPTIONS}{A list object specifying the value of parbarrier}
+\item{X}{A list containing the solution matrix to the primal problem}
+\item{y}{A list containing the  solution vector to the dual problem}
+\item{Z}{A list containing the  solution matrix to the dual problem}
+\item{pobj}{The achieved value of the primary objective function}
+\item{dobj}{The achieved value of the dual objective function}
 }
 \description{
 \code{doptimal} creates input for sqlp to solve the D-Optimal Experimental Design problem -
@@ -30,11 +28,5 @@ details can be found in the vignette
 data(DoptDesign)
 
 out <- doptimal(DoptDesign)
-blk <- out$blk
-At <- out$At
-C <- out$C
-b <- out$b
-OPTIONS <- out$OPTIONS
 
 }
-

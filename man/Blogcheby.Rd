@@ -12,4 +12,3 @@ data(Blogcheby)
 B Matrix for the Log Chebyshev Approximation Problem
 }
 \keyword{datasets}
-

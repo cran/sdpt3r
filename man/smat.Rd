@@ -7,7 +7,7 @@
 smat(blk, p, At, isspM = NULL)
 }
 \arguments{
-\item{blk}{Lx2 matrix detailing the type of matrices ("s", "q", "l", "p"), and the size of each matrix}
+\item{blk}{Lx2 matrix detailing the type of matrices ("s", "q", "l", "u"), and the size of each matrix}
 
 \item{p}{Row of blk to be used during matrix creation}
 
@@ -32,4 +32,3 @@ blk[[1,2]] <- 3
 P <- smat(blk,1, y)
 
 }
-

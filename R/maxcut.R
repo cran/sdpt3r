@@ -10,22 +10,16 @@
 #' @param B A (weighted) adjacency matrix corresponding to a graph
 #' 
 #' @return 
-#' Returns an object of class sqlp_input, containing the following:
-#' 
-#' \item{blk}{A matrix object describing the block diagonal structure of the SQLP data}
-#' \item{At}{A matrix object containing constraint matrices for the primal-dual problem}
-#' \item{C}{A matrix object containing the constant c matrices in the primal objective function}
-#' \item{b}{A vector containing the right hand side of the equality constraints in the primal problem}
-#' \item{OPTIONS}{A list object specifying the value of parbarrier}
+#' \item{X}{A list containing the solution matrix to the primal problem}
+#' \item{y}{A list containing the  solution vector to the dual problem}
+#' \item{Z}{A list containing the  solution matrix to the dual problem}
+#' \item{pobj}{The achieved value of the primary objective function}
+#' \item{dobj}{The achieved value of the dual objective function}
 #' 
 #' @examples 
 #' data(Bmaxcut)
 #'
 #' out <- maxcut(Bmaxcut)
-#' blk <- out$blk
-#' At <- out$At
-#' C <- out$C
-#' b <- out$b
 #' 
 #' @export
 maxcut <- function(B){
@@ -56,10 +50,10 @@ maxcut <- function(B){
   
   Avec <- svec(blk,M=A,isspx=matrix(0,nrow(blk),1))
   
-  output <- list(blk=blk, At=Avec, b=b, C=C, OPTIONS = list())
-  class(output) <- "sqlp_input"
+  out <- sqlp_base(blk, Avec, C, b)
+  dim(out$X) <- NULL
+  dim(out$Z) <- NULL
   
-  return(output)
-  
+  return(out)
   
 }

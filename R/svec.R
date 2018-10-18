@@ -3,7 +3,7 @@
 #'\code{svec} takes the upper triangular matrix (including the diagonal) and vectorizes
 #'it column-wise.
 #'
-#'@param blk 1x2 matrix detailing the type of matrix ("s", "q", "l", "p"), and the size of the matrix
+#'@param blk 1x2 matrix detailing the type of matrix ("s", "q", "l", "u"), and the size of the matrix
 #'@param M matrix which is to be vectorized
 #'@param isspx if M is sparse, isspx = 1, 0 otherwise. Default is to assume M is dense.
 #'
@@ -21,6 +21,14 @@
 #'
 #' @export
 svec <- function(blk,M,isspx=NULL){
+  
+  if(is.vector(blk)){
+    blk = cbind(list(names(blk)), list(blk))
+  }
+  
+  if(is.list(M)){
+    M = matrix(M, nrow=nrow(blk))
+  }
   
   if(is.list(M)){
     if(is.null(isspx)){

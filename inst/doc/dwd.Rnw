@@ -132,16 +132,10 @@ Distance Weighted Discrimination solves the following optimization problem to fi
 
 \noindent where $C > 0$ is a penalty parameter to be chosen. 
 
-The function \verb!dwd! takes as input two $n \times p$ matrices \verb!X1! and \verb!X2! containing the points to be separated, as well as a penalty term \verb!C! $\geq 0$ penalizing the movement of a point on the wrong side of the hyperplane to the proper side, and returns the input variables necessary for \verb!sqlp! to solve the distance weighted discrimination problem. 
+The function \verb!dwd! takes as input two $n \times p$ matrices \verb!X1! and \verb!X2! containing the points to be separated, as well as a penalty term \verb!C! $\geq 0$ penalizing the movement of a point on the wrong side of the hyperplane to the proper side, and returns the optimal solution using \verb!sqlp! to the distance weighted discrimination problem. 
 
 \begin{verbatim}
 R> out <- dwd(X1,X2,C)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> sqlp(blk,At,C,b)
 \end{verbatim}
 
 \section*{Numerical Example}
@@ -178,12 +172,6 @@ Distane weighed discrimination is used to seperate these two configrurations by 
 
 \begin{verbatim}
 R> out <- dwd(Apdwd,Andwd,0.5)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> out <- sqlp(blk, At, C, b)
 \end{verbatim}
 
 The information defining the seperating hyperplane ($\omega$ and $\beta$) is stored in the \verb!X! output vector. 

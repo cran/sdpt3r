@@ -12,4 +12,3 @@ data(Hnearcorr)
 Approximate Correlation Matrix for Nearest Correlation Matrix Problem
 }
 \keyword{datasets}
-

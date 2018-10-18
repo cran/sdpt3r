@@ -157,16 +157,10 @@ The problem is formulated as the following optimization problem
 
 \noindent where $\m{B}$ is an $(n+1)\times(n+1)$ matrix of zeros, and $\m{B}_{(n+1)(n+1)} = 1$, $q_{1} = -tr(\m{F})$, $q_{k} =$ sum of $k^{th}$ diagonal upper and lower triangular matrix, $\gamma_{1} = \sqrt{n}$, $\gamma_{k} = \sqrt{2*(n-k+1)},~k=2,...,n$, and $\beta = ||\m{F}||_{F}^{2}$. 
 
-The function \verb!toep! takes as input a symmetric matrix \verb!F! for which we would like to find the nearest Toeplitz matrix, and returns the input variables required to solve the problem using \verb!sqlp!.
+The function \verb!toep! takes as input a symmetric matrix \verb!F! for which we would like to find the nearest Toeplitz matrix, and returns the optimal solution using \verb!sqlp!.
 
 \begin{verbatim}
 R> out <- toep(F)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> sqlp(blk,At,C,b)
 \end{verbatim}
 
 \section*{Numerical Example}
@@ -193,12 +187,7 @@ Using \verb!sqlp!, we are interested in the output \verb!Z!, the optimal solutio
 
 \begin{verbatim}
 R> out <- toep(Ftoep)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
 
-R> out <- sqlp(blk,At,C,b)
 R> F <- out$Z[[1]]
 R> F <- F[-nrow(F),]
 R> F <- F[,-ncol(F)]

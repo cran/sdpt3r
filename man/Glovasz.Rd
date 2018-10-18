@@ -12,4 +12,3 @@ data(Glovasz)
 Adjacency Matrix on which to find the Lovasz Number
 }
 \keyword{datasets}
-

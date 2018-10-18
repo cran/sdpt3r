@@ -2,7 +2,7 @@
 #'
 #'\code{smat} takes a vector and creates a symmetrix matrix
 #'
-#'@param blk Lx2 matrix detailing the type of matrices ("s", "q", "l", "p"), and the size of each matrix
+#'@param blk Lx2 matrix detailing the type of matrices ("s", "q", "l", "u"), and the size of each matrix
 #'@param p Row of blk to be used during matrix creation
 #'@param At vector to be turned into a symmetric matrix
 #'@param isspM if At is sparse, isspx = 1, 0 otherwise. Default is to assume M is dense.

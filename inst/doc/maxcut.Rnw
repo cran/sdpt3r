@@ -138,26 +138,17 @@ To see that the Max-Cut problem is a conic linear optimization problem it needs 
 
 Now $\langle \m{A}_{k},~\m{X} \rangle = \tr{vec(\m{A}_{k})}vec(\m{X}) = x_{kk}$ as required, and the Max-Cut problem is specified as a conic linear optimization problem.
 
-To convert this to a form usable by \verb!sqlp!, we begin by noting that we have one optimization variable, $\m{X}$. Therefore, with $L=1$, we initialize the required input variables as follows
+To convert this to a form usable by \verb!sqlp!, we begin by noting that we have one optimization variable, $\m{X}$. Therefore, with $L=1$, and having $\m{X}$ constrained to the space of semidefinite matrices of size $n$, we specify \verb!blk! as
 
 \begin{verbatim}
-R> blk <- matrix(list(),nrow=1,ncol=2)
-R> At <- matrix(list(),nrow=1,ncol=1)
-R> C <- matrix(list(),nrow=1,ncol=1)
-\end{verbatim}
-
-Having $\m{X}$ constrained to the space of semidefinite matrices of size $n$, we specify \verb!blk! as
-
-\begin{verbatim}
-R> blk[[1,1]] <- "s"
-R> blk[[1,2]] <- n
+R> blk <- c("s" = n)
 \end{verbatim}
 
 With the objective function in the form $\langle \m{C}, \m{X} \rangle$, we define the input \verb!C! as
 
 \begin{verbatim}
 R> one <- matrix(1,nrow=n,ncol=1)
-R> C[[1,1]] <- -(diag(B %*% one) - B)/4
+R> C <- -(diag(c(B %*% one)) - B)/4
 \end{verbatim}
 
 \noindent where $\m{B}$ is the adjacency matrix for a graph on which we would like to find the maximum cut, such as the one in Figure \ref{fig:maxcut}.
@@ -197,7 +188,7 @@ R>   diag(A[[k]])[k] <- 1
 R> }
 
 R> #Combine to form At
-R> At[[1,1]] <- svec(blk[1,],A)
+R> At <- svec(blk[1],A,1)
 \end{verbatim}
 
 Having each of the diagonal elements of $\m{X}$ constrained to be 1, \verb!b! is a $n \times 1$ matrix of ones
@@ -209,19 +200,13 @@ R> b <- matrix(1,nrow=n,ncol=1)
 With all the input variables now defined, we can now call \verb!sqlp! to solve the Max-Cut problem
 
 \begin{verbatim}
-R> sqlp(blk, At, C, b)
+R> sqlp(blk, list(At), list(C), b)
 \end{verbatim}
 
-The built-in function \verb!maxcut! takes as input a (weighted) adjacency matrix \verb!B! and returns all of the input variables required for use in \verb!sqlp!. If we wish to find to the maximum cut of the graph in Figure \ref{fig:maxcut}, given the adjacency matrix $\m{B}$ we can compute the input variables for \verb!sqlp! using \verb!maxcut!
+The built-in function \verb!maxcut! takes as input a (weighted) adjacency matrix \verb!B! and returns the maximum cut of the graph using \verb!sqlp!. If we wish to find to the maximum cut of the graph in Figure \ref{fig:maxcut}, given the adjacency matrix $\m{B}$ we can compute the solution using \verb!sqlp! using \verb!maxcut!
 
 \begin{verbatim}
 R> out <- maxcut(B)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> out <- sqlp(blk,At,C,b)
 
 R> out$pobj
 

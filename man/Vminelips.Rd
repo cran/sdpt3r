@@ -12,4 +12,3 @@ data(Vminelips)
 Configuration Matrix for Minimum Ellipse Problem
 }
 \keyword{datasets}
-

@@ -12,4 +12,3 @@ data(DoptDesign)
 Test Vector Matrix for D-Optimal Design
 }
 \keyword{datasets}
-

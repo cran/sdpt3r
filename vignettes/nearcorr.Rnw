@@ -189,21 +189,15 @@ The final step is to combine the individual constraint matrices from each constr
 To solve this problem using \verb!sqlp!, we first define \verb!blk!. There are two optimization variables in the formulation of the nearest correlation matrix - $\m{X}$ is an $n \times n$ matrix constrained to be in a semidefinite cone, and $\ve{y}$ is an $n(n+1)/2 + 1$ length vector constrained to be in a quadratic cone, so 
 
 \begin{verbatim}
-R> blk <- matrix(list(),nrow=2,ncol=2)
-
-R> blk[[1,1]] <- "s"
-R> blk[[1,2]] <- n
-
-R> blk[[2,1]] <- "q"
-R> blk[[2,2]] <- n * (n + 1) / 2 + 1
+R> blk <- c("s" = n, "q" = n*(n+1)/2+1)
 \end{verbatim}
 
 Note that $\m{X}$ does not appear in the objective function, so the \verb!C! entry corresponding to the block variable $\m{X}$ is an $n \times n$ matrix of zeros, which defines \verb!C! as
 
 \begin{verbatim}
-R> C <- matrix(list(),nrow=2,ncol=1)
-R> C[[1,1]] <- matrix(0,nrow=n,ncol=n)
-R> C[[2,1]] <- rbind(1, matrix(0,nrow=n2,ncol=1))
+R> C1 <- matrix(0,nrow=n,ncol=n)
+R> C2 <- rbind(1, matrix(0,nrow=n2,ncol=1))
+R> C = list(C1,C2)
 \end{verbatim}
 
 Next comes the constraint matrix for $\m{X}$
@@ -224,7 +218,7 @@ R>
 R> A2s <- svec(blk[1,],Aks)
 R> 
 R> #Combined Constraint Matrix for X
-R> At[[1,1]] <- cbind(A1s,A2s)
+R> At1 <- cbind(A1s,A2s)
 \end{verbatim}
 
 \noindent then the constraint matrix for $\ve{e}^{\ast}$.
@@ -236,19 +230,19 @@ R> A2q1 <- matrix(0,nrow=n2,ncol=1)
 R> A2q2 <- diag(1,nrow=n2,ncol=n2)
 R> A2q <- cbind(A211, A212)
 R>
-R> At[[2,1]] <- rbind(A1q, A2q)
+R> At2 <- rbind(A1q, A2q)
 \end{verbatim}
 
 \noindent and the right hand side vector \verb!b!
 
 \begin{verbatim}
-R> b <- rbind(svec(blk[1,],R),matrix(1,n,1))
+R> b <- rbind(svec(blk[1],R,1),matrix(1,n,1))
 \end{verbatim}
 
 The nearest correlation matrix problem is now solved by
 
 \begin{verbatim}
-R> sqlp(blk, At, C, b)
+R> sqlp(blk, list(At1,At2), C, b)
 \end{verbatim}
 
 To demonstrate the nearest correlation matrix problem, we will modify an existing correlation matrix by exploring the effect of changing the sign of just one of the pairwise correlations. In the context of stock correlations, we make use of tools available in the \verb!R! package \verb!quantmod! (\cite{quantmod}) to access stock data from five tech firms (Microsoft, Apple, Amazon, Alphabet/Google, and IBM) beginning in 2007.
@@ -298,16 +292,10 @@ R> eigen(stock.corr)$values
 [1]  2.8850790  1.4306393  0.4902211  0.3294150 -0.1353544
 \end{verbatim}
 
-Given the approximate correlation matrix \verb!stock.corr!, the built-in function \verb!nearcorr! provides the input variables required for the problem to be solved using \verb!sqlp!
+Given the approximate correlation matrix \verb!stock.corr!, the built-in function \verb!nearcorr! provides the optimal solution using \verb!sqlp!
 
 \begin{verbatim}
 R> out <- nearcorr(stock.corr)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> foo <- sqlp(blk,At,C,b)
 \end{verbatim}
 
 Since this is a minimization problem, and thus a primal formulation of the SQLP, the output \verb!X! from \verb!sqlp! will provide the optimal solution to the problem - that is, \verb!X! will be the nearest correlation matrix to \verb!stock.corr!.

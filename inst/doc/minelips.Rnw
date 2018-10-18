@@ -119,17 +119,10 @@ The problem of finding the ellipsoid of minimum volume containing a set of point
 \end{array}
 \]
 
-The function \verb!minelips! takes as input an $n \times p$ matrix $\m{V}$ containing the points around which we would like to find the minimum volume ellipsoid, and returns the input variables necessary to solve the problem using \verb!sqlp!.
+The function \verb!minelips! takes as input an $n \times p$ matrix $\m{V}$ containing the points around which we would like to find the minimum volume ellipsoid, and returns the optimal solution using \verb!sqlp!.
 
 \begin{verbatim}
 R> out <- minelips(V)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-R> OPTIONS <- out$OPTIONS
-
-R> sqlp(blk,At,C,b,OPTIONS)
 \end{verbatim}
 
 \section*{Numerical Example}
@@ -167,13 +160,6 @@ R> data(Vminelips)
 [25,]  1.895  0.656
 
 R> out <- minelips(Vminelips)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-R> OPTIONS <- out$OPTIONS
-
-R> out <- sqlp(blk,At,C,b,OPTIONS)
 \end{verbatim}
 
 Here, the output we are interested in $\m{B}$ and $\ve{d}$ are stored in the output vector \verb!y!, but not in a straightforward way. 

@@ -12,4 +12,3 @@ data(Ftoep)
 Symmetric Matrix for the Toeplitz Approximatin Problem
 }
 \keyword{datasets}
-

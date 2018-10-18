@@ -7,7 +7,7 @@
 svec(blk, M, isspx = NULL)
 }
 \arguments{
-\item{blk}{1x2 matrix detailing the type of matrix ("s", "q", "l", "p"), and the size of the matrix}
+\item{blk}{1x2 matrix detailing the type of matrix ("s", "q", "l", "u"), and the size of the matrix}
 
 \item{M}{matrix which is to be vectorized}
 
@@ -30,4 +30,3 @@ blk[[2]] <- nrow(Hnearcorr)
 svec(blk,Hnearcorr)
 
 }
-

@@ -61,7 +61,7 @@ symqmr <- function(A, b, L, tol=1e-10, maxit, printlevel=1){
       break
     }else{
       alpha <- as.matrix(rho_old/sigma)
-      r <- r - alpha*c(Aq)
+      r <- r - c(alpha)*c(Aq)
     }
     u <- precond(A,L,r)
     if(any(is.nan(u))){

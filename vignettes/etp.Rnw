@@ -137,16 +137,10 @@ diag(\m{X}) &\geq~~ \ve{1} \\
 \end{array}
 \]
 
-The function \verb!etp! takes as input an $n \times n$ positive definite matrix \verb!A!, and returns the input variables required to solve the educational testing problem using \verb!sqlp!.
+The function \verb!etp! takes as input an $n \times n$ positive definite matrix \verb!A!, and returns the solution to the educational testing problem using \verb!sqlp!.
 
 \begin{verbatim}
 R> out <- etp(A)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> sqlp(blk,At,C,b)
 \end{verbatim}
 
 \section*{Numerical Example}

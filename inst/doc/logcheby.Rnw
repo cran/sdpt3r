@@ -121,16 +121,10 @@ For a $p \times n$ ($p > n$) matrix $\m{B}$ and $p \times 1$ vector $\ve{f}$, th
 
 \noindent where $\m{B}_{i\cdot}$ denotes the $i^{th}$ row of the matrix $\m{B}$. Note that we require each element of $\m{B}_{\cdot j}/\ve{f}$ to be greater than or equal to 0 for all $j$. 
 
-The function \verb!logcheby! takes as input a matrix \verb!B! and vector \verb!f!, and returns the input variables necessary to solve the Logarithmic Chebyshev Approximation problem using \verb!sqlp!.
+The function \verb!logcheby! takes as input a matrix \verb!B! and vector \verb!f!, and returns the solution to the Logarithmic Chebyshev Approximation problem using \verb!sqlp!.
 
 \begin{verbatim}
 R> out <- logcheby(B,f)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> sqlp(blk,At,C,b)
 \end{verbatim}
 
 \section*{Numerical Example}
@@ -191,12 +185,6 @@ Note that it must be the case that each element of $\m{B}_{\cdot j}/\ve{f}$ must
 
 \begin{verbatim}
 R> out <- logcheby(Blogcheby, flogcheby)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> out <- sqlp(blk,At,C,b)
 \end{verbatim}
 
 Here, the outputs of interest are the optimal value of the objective function (which again we need to negagate due to the negation of the objective function), and the vector $\ve{X}$, which is stored in the output variable \verb!y!.

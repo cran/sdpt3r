@@ -37,6 +37,10 @@ distanceGeometry <- function(D){ #D is a distance matrix
   At[[1]] <- svec(blk[1,,drop=FALSE],AA)[[1]]
   At[[2]] <- cbind(-diag(m),diag(m))
   
-  return(list(blk=blk,At=At,C=C,b=b))
+  out <- sqlp_base(blk=blk, At=At, b=b, C=C, OPTIONS = list())
+  dim(out$X) <- NULL
+  dim(out$Z) <- NULL
+  
+  return(out)
   
 }

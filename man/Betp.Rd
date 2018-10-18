@@ -12,4 +12,3 @@ data(Betp)
 Symmetric Matrix for Educational Testing Problem
 }
 \keyword{datasets}
-

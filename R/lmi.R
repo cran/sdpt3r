@@ -9,22 +9,17 @@
 #' @param B An mxn real valued matrix
 #' 
 #' @return 
-#' Returns an object of class sqlp_input, containing the following:
-#' 
-#' \item{blk}{A matrix object describing the block diagonal structure of the SQLP data}
-#' \item{At}{A matrix object containing constraint matrices for the primal-dual problem}
-#' \item{C}{A matrix object containing the constant c matrices in the primal objective function}
-#' \item{b}{A vector containing the right hand side of the equality constraints in the primal problem}
-#' \item{OPTIONS}{A list object specifying the value of parbarrier}
+#' \item{X}{A list containing the solution matrix to the primal problem}
+#' \item{y}{A list containing the  solution vector to the dual problem}
+#' \item{Z}{A list containing the  solution matrix to the dual problem}
+#' \item{pobj}{The achieved value of the primary objective function}
+#' \item{dobj}{The achieved value of the dual objective function}
 #' 
 #' @examples 
 #' B <- matrix(c(-1,5,1,0,-2,1,0,0,-1), nrow=3)
 #' 
-#' out <- lmi1(B)
-#' blk <- out$blk
-#' At <- out$At
-#' C <- out$C
-#' b <- out$b
+#' #Not Run
+#' #out <- lmi1(B)
 #'
 #' @export
 lmi1 <- function(B){
@@ -69,10 +64,11 @@ lmi1 <- function(B){
   
   b <- matrix(c(rep(0,n2),-1),ncol=1) 
   
-  output <- list(blk=blk, At=At, b=b, C=C, OPTIONS = list())
-  class(output) <- "sqlp_input"
+  out <- sqlp_base(blk=blk, At=At, b=b, C=C, OPTIONS = list())
+  dim(out$X) <- NULL
+  dim(out$Z) <- NULL
   
-  return(output)
+  return(out)
 }
 
 #'Linear Matrix Inequality 2
@@ -88,13 +84,11 @@ lmi1 <- function(B){
 #' @param B An nxp real valued matrix
 #' 
 #' @return 
-#' Returns an object of class sqlp_input, containing the following:
-#' 
-#' \item{blk}{A matrix object describing the block diagonal structure of the SQLP data}
-#' \item{At}{A matrix object containing constraint matrices for the primal-dual problem}
-#' \item{C}{A matrix object containing the constant c matrices in the primal objective function}
-#' \item{b}{A vector containing the right hand side of the equality constraints in the primal problem}
-#' \item{OPTIONS}{A list object specifying the value of parbarrier}
+#' \item{X}{A list containing the solution matrix to the primal problem}
+#' \item{y}{A list containing the  solution vector to the dual problem}
+#' \item{Z}{A list containing the  solution matrix to the dual problem}
+#' \item{pobj}{The achieved value of the primary objective function}
+#' \item{dobj}{The achieved value of the dual objective function}
 #' 
 #' @examples 
 #' A1 <- matrix(c(-1,0,1,0,-2,1,0,0,-1),3,3)
@@ -102,10 +96,6 @@ lmi1 <- function(B){
 #' B  <- matrix(c(1,3,5,2,4,6),3,2)
 #' 
 #' out <- lmi2(A1,A2,B)
-#' blk <- out$blk
-#' At <- out$At
-#' C <- out$C
-#' b <- out$b
 #'
 #' @export
 lmi2 <- function(A1,A2,B){
@@ -158,10 +148,11 @@ lmi2 <- function(A1,A2,B){
   blktmp[[1,2]] <- n   
   b <- rbind(-svec(blktmp,M=as.matrix(I)), matrix(0,dlen,1))
   
-  output <- list(blk=blk, At=At, b=b, C=C, OPTIONS = list())
-  class(output) <- "sqlp_input"
+  out <- sqlp_base(blk=blk, At=At, b=b, C=C, OPTIONS = list())
+  dim(out$X) <- NULL
+  dim(out$Z) <- NULL
   
-  return(output)
+  return(out)
   
 }
 
@@ -179,13 +170,11 @@ lmi2 <- function(A1,A2,B){
 #' @param G An nxn real valued matrix
 #' 
 #' @return 
-#' Returns an object of class sqlp_input, containing the following:
-#' 
-#' \item{blk}{A matrix object describing the block diagonal structure of the SQLP data}
-#' \item{At}{A matrix object containing constraint matrices for the primal-dual problem}
-#' \item{C}{A matrix object containing the constant c matrices in the primal objective function}
-#' \item{b}{A vector containing the right hand side of the equality constraints in the primal problem}
-#' \item{OPTIONS}{A list object specifying the value of parbarrier}
+#' \item{X}{A list containing the solution matrix to the primal problem}
+#' \item{y}{A list containing the  solution vector to the dual problem}
+#' \item{Z}{A list containing the  solution matrix to the dual problem}
+#' \item{pobj}{The achieved value of the primary objective function}
+#' \item{dobj}{The achieved value of the dual objective function}
 #' 
 #' @examples 
 #' A <- matrix(c(-1,0,1,0,-2,1,0,0,-1),3,3)
@@ -193,10 +182,6 @@ lmi2 <- function(A1,A2,B){
 #' G <- matrix(1,3,3)
 #'
 #' out <- lmi3(A,B,G)
-#' blk <- out$blk
-#' At <- out$At
-#' C <- out$C
-#' b <- out$b
 #'
 #' @export
 lmi3 <- function(A,B,G){
@@ -233,10 +218,11 @@ lmi3 <- function(A,B,G){
   N <- n*(n+1)/2 
   b <- rbind(matrix(0,N,1),1)
   
-  output <- list(blk=blk, At=Avec, b=b, C=C, OPTIONS = list())
-  class(output) <- "sqlp_input"
+  out <- sqlp_base(blk=blk, At=Avec, b=b, C=C, OPTIONS = list())
+  dim(out$X) <- NULL
+  dim(out$Z) <- NULL
   
-  return(output)
+  return(out)
 }
 
 # #' @export

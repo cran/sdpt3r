@@ -12,4 +12,3 @@ data(Bmaxkcut)
 Adjacency Matrix for Max-kCut
 }
 \keyword{datasets}
-

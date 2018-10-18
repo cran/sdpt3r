@@ -12,4 +12,3 @@ data(Apdwd)
 Ap Configuration Matrix for Distance Weighted Discrimination
 }
 \keyword{datasets}
-

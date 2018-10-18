@@ -181,23 +181,10 @@ Finally, define the right hand side of each constraint
 
 To convert this to a form usable by \textbf{sdpt3r}, we initialize our input variables by noting we have three blocks - $\m{X}$, $\ve{z}^{l}$, and $\sv{\lambda}$
 
-\begin{verbatim}
-R> blk <- matrix(list(),nrow=3,ncol=2)
-R> At <- matrix(list(),nrow=3,ncol=1)
-R> C <- matrix(list(),nrow=3,ncol=1)
-\end{verbatim}
-
 As before, we declare the three blocks in \verb!blk!. The first block is semidefinite containing the matrix $\m{Z}$, the second a linear block containing $\ve{z}^{l}$, and the third an unrestricted block containing $\sv{\lambda}$
 
 \begin{verbatim}
-R> blk[[1,1]] <- "s"
-R> blk[[1,2]] <- n
-
-R> blk[[2,1]] <- "l"
-R> blk[[2,2]] <- p
-
-R> blk[[3,1]] <- "u"
-R> blk[[3,2]] <- 1
+R> blk <- c("s" = n, "l" = p, "u" = 1)
 \end{verbatim}
 
 Next, by noting the variable $\sv{\lambda}$ does not appear in the objective function, we specify \verb!b! as a vector of zeros
@@ -209,9 +196,10 @@ R> b <- matrix(0,nrow=p,ncol=1)
 Next, looking at the right-hand side of the constraints, we define the matrices \verb!C!
 
 \begin{verbatim}
-R> C[[1,1]] <- matrix(0,nrow=n,ncol=n)
-R> C[[2,1]] <- matrix(0,nrow=p,ncol=1)
-R> C[[3,1]] <- 1
+R> C1 <- matrix(0,nrow=n,ncol=n)
+R> C2 <- matrix(0,nrow=p,ncol=1)
+R> C3 <- 1
+R> C <- list(C1,C2,C3)
 \end{verbatim}
 
 Finally, we construct \verb!At! for each variable
@@ -223,27 +211,28 @@ R> for(k in 1:p){
 R>   A[[k]] <- -uk %*% t(uk)
 R> }
 R>
-R> At[[1,1]] <- svec(blk[1,], A)
-R> At[[2,1]] <- diag(-1,nrow=p,ncol=p)
-R> At[[3,1]] <- matrix(1,nrow=1,ncol=p)
+R> A1 <- svec(blk[1], A,1)
+R> A2 <- diag(-1,nrow=p,ncol=p)
+R> A3 <- matrix(1,nrow=1,ncol=p)
+R> At <- list(A1,A2,A3)
 \end{verbatim}
 
 The final hurdle necessary to address in this problem is the existence of the log-barrier. Recall that it is assumed that $v^{s}, v^{q}$, and $v^{l}$ in the dual problem are all zero in \verb!OPTIONS!. In this case, we can see that is not true, as we have a log term containing $\m{Z}$ in the objective function, meaning $v^{s}$ is equal to one. To pass this to \verb!sqlp!, we define the \verb!OPTIONS$parbarrier! variable as
 
 \begin{verbatim}
-R> OPTIONS$parbarrier <- matrix(list(),nrow=3,ncol=1)
-R> OPTIONS$parbarrier[[1]] <- 1       #for vs
-R> OPTIONS$parbarrier[[2]] <- 0       #for vq
-R> OPTIONS$parbarrier[[3]] <- 0       #for vl
+R> control$parbarrier <- matrix(list(),nrow=3,ncol=1)
+R> control$parbarrier[[1]] <- 1       #for vs
+R> control$parbarrier[[2]] <- 0       #for vq
+R> control$parbarrier[[3]] <- 0       #for vl
 \end{verbatim}
 
 The D-Optimal experimental design problem can now be solved using \verb!sqlp!
 
 \begin{verbatim}
-R> sqlp(blk, At, C, b, OPTIONS)
+R> sqlp(blk, At, C, b, control)
 \end{verbatim}
 
-To demonstrate the output generated from a D-optimal experimental design problem, we consider a simple $3 \times 25$ matrix containing the known test vectors $\ve{u}_{1},...,\ve{u}_{25}$ (the data is available in the \verb!sqlp! package). To generate the required input for \verb!sqlp!, we use the function \verb!doptimal!, which takes as input an $n \times p$ matrix $\m{U}$ containing the known test vectors, and returns the input necessary for \verb!sqlp!. The output we are interested in is \verb!y!, corresponding to $\sv{\lambda}$ in our formulation, the percentage of each $\ve{u}_{i}$ necessary to achieve maximum information in the experiment.
+To demonstrate the output generated from a D-optimal experimental design problem, we consider a simple $3 \times 25$ matrix containing the known test vectors $\ve{u}_{1},...,\ve{u}_{25}$ (the data is available in the \verb!sqlp! package). To solve the problem using \verb!sqlp!, we use the function \verb!doptimal!, which takes as input an $n \times p$ matrix $\m{U}$ containing the known test vectors, and returns the optimal solution using \verb!sqlp!. The output we are interested in is \verb!y!, corresponding to $\sv{\lambda}$ in our formulation, the percentage of each $\ve{u}_{i}$ necessary to achieve maximum information in the experiment.
 
 \begin{verbatim}
 R> data(DoptDesign)
@@ -260,13 +249,6 @@ V2 0.310 0.482 0.663 0.218 0.018 0.097 0.254 0.407 0.153
 V3 0.410 0.469 0.888 0.745 0.441 0.718 0.926 0.791 0.117
 
 R> out <- doptimal(DoptDesign)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-R> OPTIONS <- out$OPTIONS
-
-R> out <- sqlp(blk,At,C,b,OPTIONS)
 R> out$y
 
        [,1]

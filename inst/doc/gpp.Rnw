@@ -122,16 +122,10 @@ diag(\m{X}) &=~~ \ve{1}
 
 Here, $\m{C} = -(diag(\m{B}\ve{1}) - \m{B})$, for an adjacency matrix $\m{B}$, and $\alpha$ is any real number. 
 
-The function \verb!gpp!, takes as input a weighted adjacency matrix \verb!B! and a real number \verb!alpha! and returns the input necessary to solve the problem using \verb!sqlp!.
+The function \verb!gpp!, takes as input a weighted adjacency matrix \verb!B! and a real number \verb!alpha! and returns the optimal solution using \verb!sqlp!.
 
 \begin{verbatim}
 R> out <- gpp(B,alpha)
-R> blk <- out$blk
-R> At <- out$At
-R> C <- out$C
-R> b <- out$b
-
-R> sqlp(blk,At,C,b)
 \end{verbatim}
 
 \section*{Numerical Example}
@@ -161,12 +155,6 @@ Any value of $\alpha$ in $(0,n^{2})$ can be chosen, so without loss of generalit
 alpha <- nrow(Bgpp)
 
 out <- gpp(Bgpp, alpha)
-blk <- out$blk
-At <- out$At
-C <- out$C
-b <- out$b
-
-out <- sqlp(blk,At,C,b)
 \end{verbatim}
 
 As with the max-cut problem, the output of interest here is the primal objective function, keeping in mind that we have swapped the sign of the objective function so that the primal problem is a minimization.
