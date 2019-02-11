@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{sdpt3r}
+%\VignetteIndexEntry{minelips}
 % JSS Article Template
 \documentclass{article}
 

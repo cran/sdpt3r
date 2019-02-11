@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{sdpt3r}
+%\VignetteIndexEntry{doptimal}
 % JSS Article Template
 \documentclass{article}
 

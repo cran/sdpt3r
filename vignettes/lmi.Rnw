@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{sdpt3r}
+%\VignetteIndexEntry{lmi}
 % JSS Article Template
 \documentclass{article}
 
